@@ -12,7 +12,7 @@ sudo --user=$SUDO_USER makepkg -si --noconfirm
 
 sudo --user=$SUDO_USER yay -S librewolf-bin exodus gotop nomachine session-desktop-appimage --noconfirm
 
-git clone https://github.com/Intika-Linux-Proxy/Proxybound.git
+git clone https://github.com/causticheshire/Proxybound.git
 cd Proxybound
 ./configure
 make

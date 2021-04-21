@@ -6,12 +6,6 @@ pacman-key --refresh-keys
 pacman -Syyu --noconfirm
 pacman -S linux-hardened fakeroot git curl wget tor-openrc qtox gcc make firefox-developer-edition electrum telegram-desktop qbittorrent veracrypt keepassxc monero-gui bleachbit dnscrypt-proxy-openrc go base-devel --noconfirm --needed
 
-sudo --user=$SUDO_USER git clone https://aur.archlinux.org/yay.git
-cd yay
-sudo --user=$SUDO_USER makepkg -si --noconfirm
-
-sudo --user=$SUDO_USER yay -S librewolf-bin exodus gotop nomachine session-desktop-appimage --noconfirm
-
 git clone https://github.com/causticheshire/Proxybound.git
 cd Proxybound
 ./configure

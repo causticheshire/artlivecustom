@@ -4,7 +4,7 @@ cp -r * /home/$SUDO_USER/artlivecustom/
 cd /home/$SUDO_USER
 pacman-key --init
 pacman-key --populate
-pacman-ley --populate artix
+pacman-key --populate artix
 pacman-key --refresh-keys
 pacman -Syyu --noconfirm
 modprobe loop
@@ -30,49 +30,13 @@ echo "Available profiles"
     echo "11. plasma"
     echo "12. xfce"
     echo "________________"
-read -r -p "Select ur profile: " -e -i $profile profile
-	case $profile in
-	1)
-		profile="base"
-		;;
-	2)
-		profile="cinnamon"
-		;;
-	3)
-		profile="common"
-		;;
-	4)
-		profile="community"
-		;;
-    5)
-		profile="community-gtk"
-		;;
-    6)
-		profile="community-qt"
-		;;
-    7)
-		profile="linexa"
-		;;
-    8)
-		profile="lxde"
-		;;
-    9)
-		profile="lxqt"
-		;;
-    10)
-		profile="mate"
-		;;
-    11)
-		profile="plasma"
-		;;
-    12)
-		profile="xfce"
-		;;
-	*)
-		echo "Invalid option"
-		exit 1
-		;;
-	esac
+read -r -p "Select ur profile: " -e -i $profile xfce
+select profile in "base" "cinnamon" "common" "community" "community-gtk" "community-qt" "linexa" "lxde" "lxqt" "mate" "plasma" "xfce"
+do
+    echo "U select " $profile
+done
+
+
 buildiso -p $profile -q
 sleep 5
 buildiso -p $profile

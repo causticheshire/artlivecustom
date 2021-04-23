@@ -22,7 +22,7 @@ do
     break
 done
 sed -i 's/midori/qtox/' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Root
-
+sed -i 's/gparted//' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Live
 buildiso -p $profile -q
 sleep 5
 buildiso -p $profile

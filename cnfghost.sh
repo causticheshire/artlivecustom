@@ -30,7 +30,7 @@ cd /home/$SUDO_USER/artlivecustom/
 cat pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
 
 mkdir /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs
-find .cache/yay/ -name "*.zst" -exec cp '{}' /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs/ \;
+find ~/.cache/yay/ -name "*.zst" -exec cp '{}' /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs/ \;
 
 
 artix-chroot /var/lib/artools/buildiso/xfce/artix/rootfs

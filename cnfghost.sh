@@ -15,6 +15,7 @@ sudo --user=$SUDO_USER makepkg -si --noconfirm
 cd /home/$SUDO_USER
 mkdir artools-workspace
 cp -r /usr/share/artools/iso-profiles artools-workspace/
+echo "Select ur profile:"
 select profile in "base" "cinnamon" "common" "community" "community-gtk" "community-qt" "linexa" "lxde" "lxqt" "mate" "plasma" "xfce"
 do
     echo "U select " $profile
@@ -26,5 +27,12 @@ buildiso -p $profile -q
 sleep 5
 buildiso -p $profile
 cd /home/$SUDO_USER/artlivecustom/
-#YPCKGS=`cat pkgyay.conf | tr -s '\r\n' ' '`
+cat pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
+
+mkdir /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs
+find .cache/yay/ -name "*.zst" -exec cp '{}' /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs/ \;
+
+
 artix-chroot /var/lib/artools/buildiso/xfce/artix/rootfs
+
+

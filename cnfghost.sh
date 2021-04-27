@@ -24,15 +24,15 @@ done
 sed -i 's/midori/qtox/' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Root
 sed -i 's/gparted//' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Live
 buildiso -p $profile -q
-sleep 5
+sleep 3
 buildiso -p $profile
 cd /home/$SUDO_USER/artlivecustom/
 cat pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
 
 mkdir /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs
 find /home/$SUDO_USER/.cache/yay/ -name "*.zst" -exec cp '{}' /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs/ \;
-
-
+cp /home/$SUDO_USER/artlivecustom/artin.sh /var/lib/artools/buildiso/xfce/artix/rootfs/
+cp /home/$SUDO_USER/artlivecustom/.post /var/lib/artools/buildiso/xfce/artix/rootfs/
 artix-chroot /var/lib/artools/buildiso/xfce/artix/rootfs
 
 

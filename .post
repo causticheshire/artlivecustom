@@ -1,0 +1,1 @@
+echo 'alias pme="export PROXYBOUND_QUIET_MODE="1" && export LD_PRELOAD=/usr/local/lib/libproxybound.so && export PROXYBOUND_CONF_FILE=/etc/proxybound.conf && curl ipinfo.io"' >> /home/$SUDO_USER/.bashrc

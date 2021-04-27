@@ -12,6 +12,9 @@ cd Proxybound
 make
 make install
 cp src/proxybound.conf /etc/
+cd /
+rm -rf Proxybound
+
+pacman -U /home/pkgs/*.zst --noconfirm --needed
+
 sed -i 's/socks4  127.0.0.1 9050/socks5\t192.168.8.1\t9050/' /etc/proxybound.conf
-cd /home/$SUDO_USER
-echo 'alias pme="export PROXYBOUND_QUIET_MODE="1" && export LD_PRELOAD=/usr/local/lib/libproxybound.so && export PROXYBOUND_CONF_FILE=/etc/proxybound.conf && curl ipinfo.io"' >> .bashrc

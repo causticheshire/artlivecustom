@@ -48,14 +48,13 @@ sleep 3
 #prebuild rootfs live system
 buildiso -p $profile
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs/
-cd /home/$SUDO_USER/artlivecustom/
 #install aur packages for integration to live system
-cat pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
+cat $artsh_dir/pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
 
 mkdir $rtfs_dirhome/pkgs
 find /home/$SUDO_USER/.cache/yay/ -name "*.zst" -exec cp '{}' $rtfs_dirhome/pkgs/ \;
-cp /home/$SUDO_USER/artlivecustom/artin.sh $rtfs_dir
-cp /home/$SUDO_USER/artlivecustom/.post $rtfs_dir
+cp $artsh_dir/artin.sh $rtfs_dir
+cp $artsh_dir/.post $rtfs_dir
 #chroot to rootfs live system
 artix-chroot $rtfs_dir
 

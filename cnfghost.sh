@@ -34,7 +34,7 @@ else
     echo "DISABLE AUTOLOGIN"
     sleep 2
     sed -i 's/AUTOLOGIN="true"/AUTOLOGIN="false"/' $work_dir$profile/profile.conf
-done
+fi
 #change live system password
 read -r -p "Enter password for live system: " -e -i $pasw artix
 sed -i 's/# PASSWORD="artix"/PASSWORD="$pasw"/' $work_dir$profile/profile.conf

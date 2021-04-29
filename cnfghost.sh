@@ -1,7 +1,6 @@
 #! /bin/bash
-mkdir /home/$SUDO_USER/artlivecustom
-cp -r * /home/$SUDO_USER/artlivecustom/
-cd /home/$SUDO_USER
+artsh_dir=$(pwd)
+# install requirements
 pacman-key --init
 pacman-key --populate
 pacman-key --populate artix
@@ -12,27 +11,52 @@ pacman -S artools iso-profiles git base-devel go --needed --noconfirm
 sudo --user=$SUDO_USER git clone https://aur.archlinux.org/yay.git
 cd yay
 sudo --user=$SUDO_USER makepkg -si --noconfirm
-cd /home/$SUDO_USER
-mkdir artools-workspace
-cp -r /usr/share/artools/iso-profiles artools-workspace/
+cd $artsh_dir
+# copy iso profiles configs
+mkdir /home/$SUDO_USER/artools-workspace
+cp -r /usr/share/artools/iso-profiles /home/$SUDO_USER/artools-workspace/
+work_dir=/home/$SUDO_USER/artools-workspace/iso-profiles/
+#select profile live system
 echo "Select ur profile:"
 select profile in "base" "cinnamon" "common" "community" "community-gtk" "community-qt" "linexa" "lxde" "lxqt" "mate" "plasma" "xfce"
 do
     echo "U select " $profile
+    sleep 1
     break
 done
-sed -i 's/midori/qtox/' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Root
-sed -i 's/gparted//' /home/$SUDO_USER/artools-workspace/iso-profiles/$profile/Packages-Live
+#change autologin live system
+read -r -p "Enable autologin - [Y/n]: " -e -i $auto Y
+if [[ "$auto" == "Y" ]] || [[ "$auto" == "y" ]]; then
+    echo "ENABLE AUTOLOGIN"
+    sleep 2
+    sed -i 's/AUTOLOGIN="true"/AUTOLOGIN="true"/' $work_dir$profile/profile.conf
+else
+    echo "DISABLE AUTOLOGIN"
+    sleep 2
+    sed -i 's/AUTOLOGIN="true"/AUTOLOGIN="false"/' $work_dir$profile/profile.conf
+done
+#change live system password
+read -r -p "Enter password for live system: " -e -i $pasw artix
+sed -i 's/# PASSWORD="artix"/PASSWORD="$pasw"/' $work_dir$profile/profile.conf
+#change pre-installed packages
+#need more work
+sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
+sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
+#test profile
 buildiso -p $profile -q
 sleep 3
+#prebuild rootfs live system
 buildiso -p $profile
+rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs/
 cd /home/$SUDO_USER/artlivecustom/
+#install aur packages for integration to live system
 cat pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
 
-mkdir /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs
-find /home/$SUDO_USER/.cache/yay/ -name "*.zst" -exec cp '{}' /var/lib/artools/buildiso/xfce/artix/rootfs/home/pkgs/ \;
-cp /home/$SUDO_USER/artlivecustom/artin.sh /var/lib/artools/buildiso/xfce/artix/rootfs/
-cp /home/$SUDO_USER/artlivecustom/.post /var/lib/artools/buildiso/xfce/artix/rootfs/
-artix-chroot /var/lib/artools/buildiso/xfce/artix/rootfs
+mkdir $rtfs_dirhome/pkgs
+find /home/$SUDO_USER/.cache/yay/ -name "*.zst" -exec cp '{}' $rtfs_dirhome/pkgs/ \;
+cp /home/$SUDO_USER/artlivecustom/artin.sh $rtfs_dir
+cp /home/$SUDO_USER/artlivecustom/.post $rtfs_dir
+#chroot to rootfs live system
+artix-chroot $rtfs_dir
 
 

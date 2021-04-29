@@ -1,7 +1,7 @@
 #! /bin/bash
 pacman-key --init
 pacman-key --populate
-pacman-ley --populate artix
+pacman-key --populate artix
 pacman-key --refresh-keys
 pacman -Syyu --noconfirm
 pacman -S linux-hardened fakeroot git curl wget tor-openrc qtox gcc make firefox-developer-edition electrum telegram-desktop qbittorrent veracrypt keepassxc monero-gui bleachbit dnscrypt-proxy-openrc go base-devel --noconfirm --needed

@@ -40,6 +40,7 @@ read -r -p "Enter password for live system: " -e -i $pasw artix
 sed -i 's/# PASSWORD="artix"/PASSWORD="$pasw"/' $work_dir$profile/profile.conf
 #change pre-installed packages
 #need more work
+sed -i 's/connman-gtk//' $work_dir$profile/Packages-Root
 sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
 sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 #test profile

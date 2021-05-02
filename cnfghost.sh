@@ -120,6 +120,8 @@ if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     sum0=$(md5sum $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso | cut -c1-32)
     sum1=$(md5sum /mnt/$lbl/xfce.iso | cut -c1-32)
     if [[ "$sum0" == "$sum1" ]]; then
+        umount $sdxa
+        eject $sdxx
         echo "Successful"
         sleep 1
     else
@@ -133,6 +135,7 @@ else
     echo "Writing..."
     dd if=$iso_dir/artix-$profile-openrc-$date_now-x86_64.iso of=$sdxx bs=1M status=progress
     echo "Successful"
+    eject $sdxx
 fi
 end=$(date +%M%s)
 diff=$($end - $start)

@@ -51,7 +51,6 @@ rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
 if [[ "$audio" == "Y" ]] || [[ "$audio" == "y" ]]; then
     echo "Wait for installing audio drivers"
-    sleep 2
     git clone --recurse-submodules https://github.com/causticheshire/chell_audio.git
     cp chell_audio/galliumos-skylake/lib/firmware/* $rtfs_dir/lib/firmware
     cp chell_audio/firmware/intel/* $rtfs_dir/lib/firmware/intel/
@@ -96,7 +95,7 @@ buildiso -p $profile -zc
 iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 date_now=$(date +'%Y%m%d')
 echo "Pls connect device"
-sleep 10
+read -n 1 -s -r -p "Press any button to continue"
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     echo "Select device - use only device name (not partition) from NAME column"
@@ -110,7 +109,6 @@ if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     sdxa=${sdxx}1
     mount $sdxa /mnt/$lbl
     echo "Wait - copy iso to device"
-    sleep 2
     rsync $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso /mnt/$lbl/xfce.iso
     sum0=$(md5sum $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso | cut -c1-32)
     sum1=$(md5sum /mnt/$lbl/xfce.iso | cut -c1-32)
@@ -118,7 +116,6 @@ if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
         umount $sdxa
         eject $sdxx
         echo "Successful"
-        sleep 1
     else
         echo "Iso corrupted, pls contact with administrator"
     fi

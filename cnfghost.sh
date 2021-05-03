@@ -43,7 +43,6 @@ sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
 sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 #test profile
 buildiso -p $profile -q
-sleep 3
 #prebuild rootfs live system
 buildiso -p $profile
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs

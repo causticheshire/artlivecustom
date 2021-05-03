@@ -45,7 +45,7 @@ sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 buildiso -p $profile -q
 sleep 3
 #prebuild rootfs live system
-buildiso -p $profile
+buildiso -p $profile -x
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 #chell audio drivers
 read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
@@ -95,7 +95,6 @@ buildiso -p $profile -zc
 iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 date_now=$(date +'%Y%m%d')
 echo "Pls connect device"
-sleep 10
 read -n 1 -s -r -p "Press any button to continue"
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then

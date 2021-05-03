@@ -22,22 +22,19 @@ echo "Select ur profile:"
 select profile in "base" "cinnamon" "common" "community" "community-gtk" "community-qt" "linexa" "lxde" "lxqt" "mate" "plasma" "xfce"
 do
     echo "U select " $profile
-    sleep 1
     break
 done
 #change autologin live system
-read -r -p "Enable autologin - [Y/n]: " -e -i $auto Y
+read -r -p "Enable autologin - [Y/n]: " -e -i "Y" auto
 if [[ "$auto" == "Y" ]] || [[ "$auto" == "y" ]]; then
     echo "ENABLE AUTOLOGIN"
-    sleep 2
     sed -i 's/AUTOLOGIN="true"/AUTOLOGIN="true"/' $work_dir$profile/profile.conf
 else
     echo "DISABLE AUTOLOGIN"
-    sleep 2
     sed -i 's/AUTOLOGIN="true"/AUTOLOGIN="false"/' $work_dir$profile/profile.conf
 fi
 #change live system password
-read -r -p "Enter password for live system: " -e -i $pasw artix
+read -r -p "Enter password for live system: " -e -i "artix" pasw
 echo 'PASSWORD="'$pasw'"' >> $work_dir$profile/profile.conf
 #change pre-installed packages
 #need more work
@@ -51,7 +48,7 @@ sleep 3
 buildiso -p $profile
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 #chell audio drivers
-read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i $audio n
+read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
 if [[ "$audio" == "Y" ]] || [[ "$audio" == "y" ]]; then
     echo "Wait for installing audio drivers"
     sleep 2
@@ -61,10 +58,8 @@ if [[ "$audio" == "Y" ]] || [[ "$audio" == "y" ]]; then
     cp -r chell_audio/ucm2/* $rtfs_dir/usr/share/alsa/ucm2
     cp -r chell_audio/galliumos-skylake/etc/* $rtfs_dir/etc
     echo "Audio drivers successfully installed"
-    sleep 2
 else
     echo "Drivers will not be installed"
-    sleep 2
 fi
 #install aur packages for integration to live system
 cat $artsh_dir/pkgyay.conf | sed s/' '//g | sudo --user=$SUDO_USER yay -S - --noanswerclean --noanswerdiff --noansweredit --noeditmenu --nodiffmenu --noremovemake --noconfirm 
@@ -102,14 +97,14 @@ iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 date_now=$(date +'%Y%m%d')
 echo "Pls connect device"
 sleep 10
-read -r -p "Use ventoy? - [Y/n]: " -e -i $vtny Y
+read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     echo "Select device - use only device name (not partition) from NAME column"
     echo "ALL DATA WILL BE CLEARED"
     lsblk -f
-    read -r -p "Select a disk (sdX): " -e -i $sdxx /dev/sd
+    read -r -p "Select a disk (sdX): " -e -i "/dev/sd" sdxx
     echo "Create label for device, dnt use system names"
-    read -r -p "Create label: " -e -i $lbl ART
+    read -r -p "Create label: " -e -i "ART" lbl
     ventoy -s -g -I $sdxx -L $lbl
     mkdir /mnt/$lbl
     sdxa=${sdxx}1
@@ -131,7 +126,7 @@ else
     echo "Select device - use only device name (not partition) from NAME column"
     echo "ALL DATA WILL BE CLEARED"
     lsblk -f
-    read -r -p "Select a disk (sdX): " -e -i $sdxx /dev/sd
+    read -r -p "Select a disk (sdX): " -e -i "/dev/sd" sdxx
     echo "Writing..."
     dd if=$iso_dir/artix-$profile-openrc-$date_now-x86_64.iso of=$sdxx bs=1M status=progress
     echo "Successful"

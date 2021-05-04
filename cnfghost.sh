@@ -140,6 +140,14 @@ function isowrite {
         eject $sdxx
     fi
 }
+prehost
+profiling
+ptest
+prebuild
+pconf
+isobuild
+isowrite
+
 end=$(date +%M%s)
 diff=$($end - $start)
 echo $diff

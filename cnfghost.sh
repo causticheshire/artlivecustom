@@ -45,8 +45,7 @@ sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 buildiso -p $profile -q
 sleep 3
 #prebuild rootfs live system
-buildiso -p $profile -x
-buildiso -p $profile -b
+buildiso -p $profile
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 #chell audio drivers
 read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
@@ -98,6 +97,7 @@ date_now=$(date +'%Y%m%d')
 echo "Pls connect device"
 sleep 3
 read -n 1 -s -r -p "Press any button to continue"
+echo
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     echo "Select device - use only device name (not partition) from NAME column"

@@ -43,7 +43,7 @@ sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
 sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 #test profile
 buildiso -p $profile -q
-sleep 3
+sleep 3 #dnt touch this sleep 3
 #prebuild rootfs live system
 buildiso -p $profile
 rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
@@ -72,7 +72,6 @@ cp $artsh_dir/.post $rtfs_dir
 artix-chroot $rtfs_dir <<EOF
 pacman-key --init
 pacman-key --populate
-pacman-key --populate artix
 pacman-key --refresh-keys
 pacman -Syyu --noconfirm
 pacman -S linux-hardened fakeroot git curl wget tor-openrc qtox gcc make firefox-developer-edition electrum telegram-desktop qbittorrent veracrypt keepassxc monero-gui bleachbit dnscrypt-proxy-openrc go base-devel --noconfirm --needed
@@ -95,9 +94,8 @@ buildiso -p $profile -zc
 iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 date_now=$(date +'%Y%m%d')
 echo "Pls connect device"
-sleep 3
+sleep 3 #dnt touch this sleep 3
 read -n 1 -s -r -p "Press any button to continue"
-echo
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     echo "Select device - use only device name (not partition) from NAME column"

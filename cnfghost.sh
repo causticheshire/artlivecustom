@@ -49,13 +49,13 @@ function btest {
     #test profile
     option=-q
     export profile option
-    .$artsh_dir/build.sh
+    exec $artsh_dir/build.sh
 }
 function prebuild {
     #prebuild rootfs live system
     option=""
     export profile option
-    .$artsh_dir/build.sh
+    exec $artsh_dir/build.sh
     rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 }
 function pconf {
@@ -103,16 +103,16 @@ function isobuild {
     #build live system
     option=-xc
     export profile option
-    .$artsh_dir/build.sh
+    exec $artsh_dir/build.sh
     option=-sc
     export profile option
-    .$artsh_dir/build.sh
+    ecec $artsh_dir/build.sh
     option=-bc
     export profile option
-    .$artsh_dir/build.sh
+    exec $artsh_dir/build.sh
     option=-zc
     export profile option
-    .$artsh_dir/build.sh
+    exec $artsh_dir/build.sh
     iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 }
 function isowrite {
@@ -152,6 +152,13 @@ function isowrite {
         eject $sdxx
     fi
 }
+function check_root {
+    if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root"
+    exit 1
+    fi
+}
+check_root
 start=$(date +%M%s)
 artsh_dir=$(pwd)
 reqhost

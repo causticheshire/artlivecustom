@@ -1,7 +1,6 @@
 #!/bin/bash
-start=$(date +%M%s)
-artsh_dir=$(pwd)
-function prehost {
+
+function reqhost {
     # install requirements
     pacman-key --init
     pacman-key --populate
@@ -14,10 +13,11 @@ function prehost {
     cd yay
     sudo --user=$SUDO_USER makepkg -si --noconfirm
     cd $artsh_dir
+    mkdir /home/$SUDO_USER/artools-workspace
+    chmod +x $artsh_dir/build.sh
 }
 function profiling {
     # copy iso profiles configs
-    mkdir /home/$SUDO_USER/artools-workspace
     cp -r /usr/share/artools/iso-profiles /home/$SUDO_USER/artools-workspace/
     work_dir=/home/$SUDO_USER/artools-workspace/iso-profiles/
     #select profile live system
@@ -45,13 +45,17 @@ function profiling {
     sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
     sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
 }
-function ptest {
+function btest {
     #test profile
-    buildiso -p $profile -q
+    option=-q
+    export profile option
+    .$artsh_dir/build.sh
 }
 function prebuild {
-#prebuild rootfs live system
-    buildiso -p $profile
+    #prebuild rootfs live system
+    option=""
+    export profile option
+    .$artsh_dir/build.sh
     rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
 }
 function pconf {
@@ -97,10 +101,18 @@ EOF
 }
 function isobuild {
     #build live system
-    buildiso -p $profile -xc
-    buildiso -p $profile -sc
-    buildiso -p $profile -bc
-    buildiso -p $profile -zc
+    option=-xc
+    export profile option
+    .$artsh_dir/build.sh
+    option=-sc
+    export profile option
+    .$artsh_dir/build.sh
+    option=-bc
+    export profile option
+    .$artsh_dir/build.sh
+    option=-zc
+    export profile option
+    .$artsh_dir/build.sh
     iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
 }
 function isowrite {
@@ -140,9 +152,11 @@ function isowrite {
         eject $sdxx
     fi
 }
-prehost
+start=$(date +%M%s)
+artsh_dir=$(pwd)
+reqhost
 profiling
-ptest
+btest
 prebuild
 pconf
 isobuild

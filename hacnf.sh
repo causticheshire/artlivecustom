@@ -11,6 +11,7 @@ pacman-key --populate
 pacman-key --refresh-keys
 pacman -Syyu --noconfirm
 modprobe loop
+modprobe overlay
 pacman -S artools iso-profiles git base-devel go --needed --noconfirm
 sudo --user=$SUDO_USER git clone https://aur.archlinux.org/yay.git
 cd yay

@@ -4,7 +4,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 artsh_dir=$(pwd)
-exec $artsh_dir/write.sh
+write_sc=$artsh_dir/write.sh
+bash $write_sc
 local date_now=$(date +'%Y%m%d')
 read -n 1 -s -r -p "Pls connect device and press any button to continue"
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny

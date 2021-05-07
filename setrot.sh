@@ -4,8 +4,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 artsh_dir=$(pwd)
-exec $artsh_dir/conf.sh
-
+conf_sc=$artsh_dir/conf.sh
+bash $conf_sc
 #chell audio drivers
 read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
 if [[ "$audio" == "Y" ]] || [[ "$audio" == "y" ]]; then

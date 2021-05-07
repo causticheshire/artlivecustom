@@ -4,7 +4,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 artsh_dir=$(pwd)
-write_sc=$artsh_dir/write.sh
+profile=$(cat $artsh_dir/.profile)
+iso_dir=$(cat $artsh_dir/.iso)
 bash $write_sc
 local date_now=$(date +'%Y%m%d')
 read -n 1 -s -r -p "Pls connect device and press any button to continue"

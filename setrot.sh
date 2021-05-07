@@ -4,8 +4,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 artsh_dir=$(pwd)
-conf_sc=$artsh_dir/conf.sh
-bash $conf_sc
+profile=$(cat $artsh_dir/.profile)
+rtfs_dir=$(cat $artsh_dir/.rtfs)
 #chell audio drivers
 read -r -p "Install audio drivers HP Chromebook? - [Y/n]: " -e -i "n" audio
 if [[ "$audio" == "Y" ]] || [[ "$audio" == "y" ]]; then
@@ -45,11 +45,7 @@ rm -rf Proxybound
 pacman -U /home/pkgs/*.zst --noconfirm --needed
 sed -i 's/socks4  127.0.0.1 9050/socks5\t192.168.8.1\t9050/' /etc/proxybound.conf
 EOF
-echo "#!/bin/bash
-profile=$profile
-iso_dir=/home/$SUDO_USER/artools-workspace/iso/$profile
-export profile iso_dir
-" > $artsh_dir/write.sh
+echo "/home/$SUDO_USER/artools-workspace/iso/$profile" > $artsh_dir/.iso
 chmod +x $artsh_dir/write.sh
 #build live system
 buildiso -p $profile -xc

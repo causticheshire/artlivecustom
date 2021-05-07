@@ -45,11 +45,7 @@ echo 'PASSWORD="'$pasw'"' >> $work_dir$profile/profile.conf
 sed -i 's/connman-gtk//' $work_dir$profile/Packages-Root
 sed -i 's/midori/qtox/' $work_dir$profile/Packages-Root
 sed -i 's/gparted/#gparted/' $work_dir$profile/Packages-Live
-echo "#!/bin/bash
-profile=$profile
-rtfs_dir=/var/lib/artools/buildiso/$profile/artix/rootfs
-export artsh_dir profile rtfs_dir
-" > $artsh_dir/conf.sh
-chmod +x $artsh_dir/conf.sh
-#test profile
-buildiso -p $profile
+echo "$profile" > $artsh_dir/.profile
+echo "/var/lib/artools/buildiso/$profile/artix/rootfs" > $artsh_dir/.rtfs
+echo "After this script use command:"
+echo "buildiso -p $profile"

@@ -46,7 +46,6 @@ pacman -U /home/pkgs/*.zst --noconfirm --needed
 sed -i 's/socks4  127.0.0.1 9050/socks5\t192.168.8.1\t9050/' /etc/proxybound.conf
 EOF
 echo "/home/$SUDO_USER/artools-workspace/iso/$profile" > $artsh_dir/.iso
-chmod +x $artsh_dir/write.sh
 #build live system
 buildiso -p $profile -xc
 buildiso -p $profile -sc

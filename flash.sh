@@ -6,7 +6,6 @@ fi
 artsh_dir=$(pwd)
 profile=$(cat $artsh_dir/.profile)
 iso_dir=$(cat $artsh_dir/.iso)
-bash $write_sc
 local date_now=$(date +'%Y%m%d')
 read -n 1 -s -r -p "Pls connect device and press any button to continue"
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
@@ -42,4 +41,7 @@ else
     echo "Successful"
     eject $sdxx
 fi
+rm $artsh_dir/.profile
+rm $artsh_dir/.iso
+rm $artsh_dir/.rtfs
 exit 1

@@ -6,7 +6,7 @@ fi
 artsh_dir=$(pwd)
 profile=$(cat $artsh_dir/.profile)
 iso_dir=$(cat $artsh_dir/.iso)
-local date_now=$(date +'%Y%m%d')
+date_now=$(date +'%Y%m%d')
 read -n 1 -s -r -p "Pls connect device and press any button to continue"
 read -r -p "Use ventoy? - [Y/n]: " -e -i "Y" vtny
 if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
@@ -18,12 +18,12 @@ if [[ "$vtny" == "Y" ]] || [[ "$vtny" == "y" ]]; then
     read -r -p "Create label: " -e -i "ART" lbl
     ventoy -s -g -I $sdxx -L $lbl
     mkdir /mnt/$lbl
-    local sdxa=${sdxx}1
+    sdxa=${sdxx}1
     mount $sdxa /mnt/$lbl
     echo "Wait - copy iso to device"
     rsync $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso /mnt/$lbl/xfce.iso
-    local sum0=$(md5sum $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso | cut -c1-32)
-    local sum1=$(md5sum /mnt/$lbl/xfce.iso | cut -c1-32)
+    sum0=$(md5sum $iso_dir/artix-$profile-openrc-$date_now-x86_64.iso | cut -c1-32)
+    sum1=$(md5sum /mnt/$lbl/xfce.iso | cut -c1-32)
     if [[ "$sum0" == "$sum1" ]]; then
         umount $sdxa
         eject $sdxx
